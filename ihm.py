@@ -1,5 +1,6 @@
 import Tkinter
 from Tkinter import StringVar
+from Tkinter import LabelFrame
 
 
 class ihm(Tkinter.Tk):
@@ -15,17 +16,20 @@ class ihm(Tkinter.Tk):
         
 
         #champ de texte (entrer)
-        self.value = StringVar() 
-        self.value.set("Noeud")
-        self.entry = Tkinter.Entry(self,fg='grey',textvariable=self.value)
-        self.entry.grid(column=0,row=1,sticky='EW')
+        self.lframe = LabelFrame(self, text="Nom du noeud", padx=50, pady=20)
+        self.lframe.pack(fill="both", expand="yes")
+        self.lframe.grid(column=0,row=0,sticky='EW')
         
         
+        #self.value = StringVar() 
+        #self.value.set("Noeud")
+        self.entry = Tkinter.Entry(self.lframe,fg='grey').pack()
+                
         self.button = Tkinter.Button(self,text=u"Ok")
-        self.button.grid(column=1,row=1)
+        self.button.grid(column=1,row=0)
 
-        self.label = Tkinter.Label(self,anchor="center",text = 'Nom du noeud :',fg="black",bg="white")
-        self.label.grid(column=0,row=0,columnspan=2,sticky='EW')
+        #self.label = Tkinter.Label(self,anchor="center",text = 'Nom du noeud :',fg="black",bg="white")
+        #self.label.grid(column=0,row=0,columnspan=2,sticky='EW')
         #redimensionnement auto
         self.grid_columnconfigure(0,weight=1)
         self.geometry("800x600+300+0")
