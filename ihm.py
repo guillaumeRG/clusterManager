@@ -1,4 +1,6 @@
-import Tkinter 
+import Tkinter
+from Tkinter import StringVar
+
 
 class ihm(Tkinter.Tk):
     def __init__(self,parent):
@@ -13,15 +15,17 @@ class ihm(Tkinter.Tk):
         
 
         #champ de texte (entrer)
-        self.entry = Tkinter.Entry(self)
-        self.entry.grid(column=0,row=0,sticky='EW')
+        self.value = StringVar() 
+        self.value.set("Noeud")
+        self.entry = Tkinter.Entry(self,fg='grey',textvariable=self.value)
+        self.entry.grid(column=0,row=1,sticky='EW')
+        
+        
+        self.button = Tkinter.Button(self,text=u"Ok")
+        self.button.grid(column=1,row=1)
 
-        button = Tkinter.Button(self,text=u"Ok")
-        button.grid(column=1,row=0)
-
-        label = Tkinter.Label(self,
-                              anchor="w",fg="white",bg="blue")
-        label.grid(column=0,row=1,columnspan=2,sticky='EW')
+        self.label = Tkinter.Label(self,anchor="center",text = 'Nom du noeud :',fg="black",bg="white")
+        self.label.grid(column=0,row=0,columnspan=2,sticky='EW')
         #redimensionnement auto
         self.grid_columnconfigure(0,weight=1)
         self.geometry("800x600+300+0")
