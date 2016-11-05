@@ -1,2 +1,3 @@
 is_install;localhost;nfs-common,cron
+is_install;raspberrypi,localhost;dhcpcd
 started;localhost,raspberrypi;nfs-common
