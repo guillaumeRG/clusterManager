@@ -17,16 +17,12 @@ class dep:
         #print len(installLines)
         #installLines=fichier.read().split("\n")[0] #split de la ligne dans le fichier
         for installLine in installLines:
-            print'noeuds : '
+            global nodeIs_install
             nodeIs_install = installLine.split(";")[1].split(",")
-            for node in nodeIs_install:
-                print node+' '
-            print'\n'
-            print 'services : '
+
+            global is_install
             is_install = installLine.split(";")[2].split(",")
-            for node in is_install:
-                print node+' '
-            print'\n'
+
     def toStart(path):
         fichier = open(path,"r")
         lines = fichier.read().split("\n")
@@ -39,16 +35,23 @@ class dep:
     #    print len(installLines)
         #installLines=fichier.read().split("\n")[0] #split de la ligne dans le fichier
         for startedLine in startedLines:
-            print'noeuds : '
+            global nodeStarted
             nodeStarted = startedLine.split(";")[1].split(",")
-            for node in nodeStarted:
-                print node+' '
-            print'\n'
-            print 'services to start : '
+            global started 
             started = startedLine.split(";")[2].split(",")
-            for node in started:
-                print node+' '
-            print'\n'
+
+    def getStarted():
+        global started
+        return started
+    def getNodeStarted():
+        global nodeStarted
+        return nodeStarted
+    def getIs_install():
+        global is_install
+        return is_install
+    def getNodeStarted():
+        global nodeStarted
+        return nodeStarted
         
 
     if __name__ == "__main__":
@@ -56,3 +59,4 @@ class dep:
         toInstall("cfg/nfs-common")
         print'toStart : '
         toStart("cfg/nfs-common")
+        print getStarted()[0]
