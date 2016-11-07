@@ -1,5 +1,4 @@
 class dep:
-    fichier=0
     is_install=[]
     nodeIs_install=[]
     started=[]
