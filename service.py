@@ -15,18 +15,22 @@ class service:
         print'sudo service '+args[nbNoeud+1]+' '+args[nbNoeud+2]
         task_self().run('sudo service '+args[nbNoeud+1]+' '+args[nbNoeud+2], nodes=node0)
         if afficher==1:
-            self.recevoir()
+            self.recevoir(1)
 
-    def recevoir(self):
-        reponse=[]
+    def recevoir(self,statusCtrl):
         
         i=0
         for output, nodes in task_self().iter_buffers():
            for node in nodes:
-                print '%s: %s'%(node, output)
-
+               print '%s: %s'%(node, output)
+               if statusCtrl == 1:
+                   if output.split('Active: ')[1].split(' ')[0]=='active':
+                       return 1
+                   elif output.split('Active: ')[1].split(' ')[0]=='inactive':
+                       return 0
                 
-        
+           # "Active:" "active" "inactive"    
+            
 
 if __name__ == "__main__":
     tab=[]
