@@ -1,19 +1,85 @@
 import Tkinter
 from Tkinter import StringVar
 from Tkinter import LabelFrame
-
+import service
 
 class ihm(Tkinter.Tk):
-
+    
+    services = []
+    nodes = []
+    serviceManager=service.service()
+    def reset(self):
+        global nodes
+        global services
+        nodes=[]
+        services=[]
+        self.outputServices = Tkinter.Text(self)
+        self.outputServices.grid(column=1,row=1)
+        self.outputNode = Tkinter.Text(self)
+        self.outputNode.grid(column=0,row=1)
+    def start(self):
+        print'start'
+        global nodes
+        global services
+        global serviceManager
+        args = []
+        j=0
+        for i in range(1,(len(self.nodes)+len(self.services))):
+            if i < len(self.nodes):
+                args.append(self.nodes[i-1])
+            else:
+                 args.append(self.services[j])
+                 j=j+1
+        args.append("start")
+        if  self.nodes[0] != "":
+            self.serviceManager.start(args,0)
+            
+    def status(self):
+        print'status'
+        global nodes
+        global services
+        global serviceManager
+        args = []
+        j=0
+        for i in range(1,(len(self.nodes)+len(self.services))):
+            if i < len(self.nodes):
+                args.append(self.nodes[i-1])
+            else:
+                 args.append(self.services[j])
+                 j=j+1
+        args.append("status")
+        if  self.nodes[0] != "":
+            self.serviceManager.status(args,2)
+    def stop(self):
+        print 'stop'
+        print'status'
+        global nodes
+        global services
+        global serviceManager
+        args = []
+        j=0
+        for i in range(1,(len(self.nodes)+len(self.services))):
+            if i < len(self.nodes):
+                args.append(self.nodes[i-1])
+            else:
+                 args.append(self.services[j])
+                 j=j+1
+        args.append("stop")
+        if  self.nodes[0] != "":
+            self.serviceManager.stop(args)
     def fnct(self,event):
         if self.entrerNode.get() != "":
             print self.entrerNode.get()
             self.outputNode.insert('1.0',self.entrerNode.get()+'\n')
+            global nodes
+            self.nodes.append('test')
             self.valueNode.set("")
 
         if self.entrerService.get() !="":
             print self.entrerService.get()
             self.outputServices.insert('1.0',self.entrerService.get()+'\n')
+            global services
+            self.services.append(self.entrerService.get())
             self.valueService.set("")
         
         
@@ -53,11 +119,22 @@ class ihm(Tkinter.Tk):
         self.buttonService.pack()
 
         self.outputServices = Tkinter.Text(self)
-        self.outputServices.grid(column=1,row=2)
+        self.outputServices.grid(column=1,row=1)
         
         self.outputNode = Tkinter.Text(self)
-        self.outputNode.grid(column=0,row=2)
+        self.outputNode.grid(column=0,row=1)
 
+        self.start=Tkinter.Button(self,text="Start",command=self.start)
+        self.start.grid(column=0,row=2)
+
+        self.start=Tkinter.Button(self,text="Reset",command=self.reset)
+        self.start.grid(column=2,row=0)
+
+        self.stop=Tkinter.Button(self,text="Stop",command=self.stop)
+        self.stop.grid(column=1,row=2)
+
+        self.status=Tkinter.Button(self,text="Status",command=self.status)
+        self.status.grid(column=2,row=2)
         #self.label = Tkinter.Label(self,anchor="center",text = 'Nom du noeud :',fg="black",bg="white")
         #self.label.grid(column=0,row=0,columnspan=2,sticky='EW')
         #redimensionnement auto

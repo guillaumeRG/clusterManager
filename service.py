@@ -95,7 +95,7 @@ class service:
             
             for output, nodes in task_self().iter_buffers():
                for node in nodes:
-                   #print '%s: %s'%(node, output)
+                   print '%s: %s'%(node, output)
                    # a tester
                    string='%s'%output
                    if ctrl == 2:

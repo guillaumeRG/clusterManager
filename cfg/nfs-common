@@ -1,2 +1,2 @@
 is_install;localhost,raspberrypi;nfs-common,cron
-started;localhost;cron,nfs-common
+started;localhost;cron
