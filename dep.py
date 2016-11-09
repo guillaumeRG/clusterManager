@@ -1,11 +1,10 @@
-import time
 class dep:
     is_install=[]
     nodeIs_install=[]
     started=[]
     nodeStarted=[]
     
-    def toInstall(path):
+    def toInstall(self,path):
         fichier = open(path,"r")
         lines = fichier.read().split("\n")
         installLines=[]
@@ -23,7 +22,7 @@ class dep:
             global is_install
             is_install = installLine.split(";")[2].split(",")
 
-    def toStart(path):
+    def toStart(self,path):
         fichier = open(path,"r")
         lines = fichier.read().split("\n")
         startedLines=[]
@@ -40,16 +39,16 @@ class dep:
             global started 
             started = startedLine.split(";")[2].split(",")
 
-    def getStarted():
+    def getStarted(self):
         global started
         return started
-    def getNodeStarted():
+    def getNodeStarted(self):
         global nodeStarted
         return nodeStarted
-    def getIs_install():
+    def getIs_install(self):
         global is_install
         return is_install
-    def getNodeIs_install():
+    def getNodeIs_install(self):
         global nodeIs_install
         return nodeIs_install
         
