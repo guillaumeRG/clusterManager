@@ -1,3 +1,4 @@
+import time
 class dep:
     is_install=[]
     nodeIs_install=[]
@@ -48,9 +49,9 @@ class dep:
     def getIs_install():
         global is_install
         return is_install
-    def getNodeStarted():
-        global nodeStarted
-        return nodeStarted
+    def getNodeIs_install():
+        global nodeIs_install
+        return nodeIs_install
         
 
     if __name__ == "__main__":

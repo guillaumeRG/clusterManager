@@ -1,10 +1,36 @@
 from ClusterShell.NodeSet import NodeSet, RangeSet
 from ClusterShell.Task import task_self
 import sys
-
+#alpha
 class service:
     
-    def envoyer(self, args,afficher):
+    def start(self, args):
+        dependanceManager= dep()
+
+        
+        node0 = NodeSet()
+        nbNoeud = len(args)-3
+        print'nbNoeud: %d'%nbNoeud
+
+        for i in range(1,nbNoeud):
+            node0.add(args[i])
+
+        #verification de la dependance
+        dependanceManager.toInstall("cfg/"+args[nbNoeud+1])
+
+        #recuperation des dependances
+        startNode = dependanceManager.getNodeStarted()
+        startServices = dependanceManager.getStarted()
+        installNode = dependanceManager.getNodeIs_install()
+        installService = dependanceManager.getIs_install()
+
+        #pour chaque noeud dependant
+        for node in startNode:
+            
+                
+        print'sudo service '+args[nbNoeud+1]+' '+args[nbNoeud+2]
+        task_self().run('sudo service '+args[nbNoeud+1]+' '+args[nbNoeud+2], nodes=node0)
+    def status(self, args,afficher):
         node0 = NodeSet()
         nbNoeud = len(args)-3
         print'nbNoeud: %d'%nbNoeud
@@ -15,14 +41,14 @@ class service:
         print'sudo service '+args[nbNoeud+1]+' '+args[nbNoeud+2]
         task_self().run('sudo service '+args[nbNoeud+1]+' '+args[nbNoeud+2], nodes=node0)
         if afficher==1:
-            self.recevoir(1)
-
+            self.recevoir(afficher)
     def recevoir(self,statusCtrl):
         
         i=0
         for output, nodes in task_self().iter_buffers():
            for node in nodes:
                print '%s: %s'%(node, output)
+               # a tester
                if statusCtrl == 1:
                    if output.split('Active: ')[1].split(' ')[0]=='active':
                        return 1
@@ -35,7 +61,7 @@ class service:
 if __name__ == "__main__":
     tab=[]
     services = service()
-    services.envoyer(sys.argv,1)
+    services.start(sys.argv,1)
 
     #sudo python service.py localhost dhcpcd status
     
