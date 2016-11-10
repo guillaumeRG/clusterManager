@@ -22,57 +22,63 @@ class ihm(Tkinter.Tk):
         global nodes
         global services
         global serviceManager
-        args = []
-        j=0
-        for i in range(1,(len(self.nodes)+len(self.services))):
-            if i < len(self.nodes):
-                args.append(self.nodes[i-1])
-            else:
-                 args.append(self.services[j])
-                 j=j+1
+        args = ['service.py']
+
+        for i in range(1,(len(self.nodes)+1)):
+            args.append(self.nodes[i-1])
+            
+        args.append('service')
         args.append("start")
-        if  self.nodes[0] != "":
-            self.serviceManager.start(args,0)
+        for i in range(0,(len(self.services))):
+            
+            args[len(self.nodes)+1]=self.services[i]
+            if  self.nodes[0] != "":
+                if self.services[0] != "":
+                    self.serviceManager.start(args)
             
     def status(self):
         print'status'
         global nodes
         global services
         global serviceManager
-        args = []
-        j=0
-        for i in range(1,(len(self.nodes)+len(self.services))):
-            if i < len(self.nodes):
-                args.append(self.nodes[i-1])
-            else:
-                 args.append(self.services[j])
-                 j=j+1
+        args = ['service.py']
+
+        for i in range(1,(len(self.nodes)+1)):
+            args.append(self.nodes[i-1])
+            
+        args.append('service')
         args.append("status")
-        if  self.nodes[0] != "":
-            self.serviceManager.status(args,1)
+        for i in range(0,(len(self.services))):
+            
+            args[len(self.nodes)+1]=self.services[i]
+            if  self.nodes[0] != "":
+                if self.services[0] != "":
+                    self.serviceManager.status(args,1)
+            
     def stop(self):
         print 'stop'
-        print'status'
         global nodes
         global services
         global serviceManager
-        args = []
-        j=0
-        for i in range(1,(len(self.nodes)+len(self.services))):
-            if i < len(self.nodes):
-                args.append(self.nodes[i-1])
-            else:
-                 args.append(self.services[j])
-                 j=j+1
+        args = ['service.py']
+
+        for i in range(1,(len(self.nodes)+1)):
+            args.append(self.nodes[i-1])
+            
+        args.append('service')
         args.append("stop")
-        if  self.nodes[0] != "":
-            self.serviceManager.stop(args)
+        for i in range(0,(len(self.services))):
+            
+            args[len(self.nodes)+1]=self.services[i]
+            if  self.nodes[0] != "":
+                if self.services[0] != "":
+                    self.serviceManager.stop(args)
     def fnct(self,event):
         if self.entrerNode.get() != "":
             print self.entrerNode.get()
             self.outputNode.insert('1.0',self.entrerNode.get()+'\n')
             global nodes
-            self.nodes.append('test')
+            self.nodes.append(self.entrerNode.get())
             self.valueNode.set("")
 
         if self.entrerService.get() !="":

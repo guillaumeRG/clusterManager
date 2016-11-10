@@ -17,7 +17,7 @@ class service:
         print 'sudo service '+args[nbNoeud+1]+' stop'
         task_self().run('sudo service '+args[nbNoeud+1]+' stop', nodes=nodes)
 
-    def start(self, args, ctrl):
+    def start(self, args):
         dependanceManager= dep.dep()
         nodes = NodeSet()
         depNode = NodeSet()
@@ -113,6 +113,7 @@ class service:
                        
                         if string.split('Active: ')[1].split(' ')[0]=='active':
                             print '%s start status : 1'%node
+
                             return 1
                         elif string.split('Active: ')[1].split(' ')[0]=='inactive':
                             print '%s start status : 0'%node
