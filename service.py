@@ -14,7 +14,7 @@ class service:
             node0.add(args[i])
 
        
-        print'sudo service '+args[nbNoeud+1]+' stop'
+        print 'sudo service '+args[nbNoeud+1]+' stop'
         task_self().run('sudo service '+args[nbNoeud+1]+' stop', nodes=nodes)
 
     def start(self, args, ctrl):
@@ -70,7 +70,7 @@ class service:
                     
         if dependance == 1:
             print'dependance OK'
-            print'sudo service '+args[nbNoeud+1]+' start'
+            print 'sudo service '+args[nbNoeud+1]+' start'
             task_self().run('sudo service '+args[nbNoeud+1]+' start', nodes=nodes)
         else:
             print'dependance KO'
@@ -84,7 +84,7 @@ class service:
         for i in range(1,nbNoeud):
             node0.add(args[i])
 
-        print'sudo service '+args[nbNoeud+1]+' status'
+        print 'sudo service '+args[nbNoeud+1]+' status'
         task_self().run('sudo service '+args[nbNoeud+1]+' status', nodes=node0)
       
         return self.recevoir(afficher)
@@ -100,25 +100,25 @@ class service:
                    string='%s'%output
                    if ctrl == 2:
                         if string.split('Loaded: ')[1].split(' ')[0]=='loaded':
-                            print '%s install status : 1'%node.current_msg
+                            print '%s install status : 1'%node
                             return 1
                         elif string.split('Loaded: ')[1].split(' ')[0]=='not-found':
-                            print '%s install status : 0'%node.current_msg
+                            print '%s install status : 0'%node
                             return 0
                         else :
-                            print '%s install status : inconnu'%node.current_node
+                            print '%s install status : inconnu'%node
                             return -1
             
                    if ctrl == 1:
                        
                         if string.split('Active: ')[1].split(' ')[0]=='active':
-                            print '%s start status : 1'%node.current_msg
+                            print '%s start status : 1'%node
                             return 1
                         elif string.split('Active: ')[1].split(' ')[0]=='inactive':
-                            print '%s start status : 0'%node.current_msg
+                            print '%s start status : 0'%node
                             return 0
                         else :
-                            print '%s install status : inconnu'%node.current_msg
+                            print '%s start status : inconnu'%node
                             return -1
                 
            # "Active:" "active" "inactive"    

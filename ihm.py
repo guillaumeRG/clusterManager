@@ -11,8 +11,8 @@ class ihm(Tkinter.Tk):
     def reset(self):
         global nodes
         global services
-        nodes=[]
-        services=[]
+        self.nodes=[]
+        self.services=[]
         self.outputServices = Tkinter.Text(self)
         self.outputServices.grid(column=1,row=1)
         self.outputNode = Tkinter.Text(self)
@@ -49,7 +49,7 @@ class ihm(Tkinter.Tk):
                  j=j+1
         args.append("status")
         if  self.nodes[0] != "":
-            self.serviceManager.status(args,2)
+            self.serviceManager.status(args,1)
     def stop(self):
         print 'stop'
         print'status'
