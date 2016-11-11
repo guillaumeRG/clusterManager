@@ -8,13 +8,14 @@ class service:
     def stop(self, args):
         nodes = NodeSet()
         
-        nbNoeud = len(args)-3
+        nbNoeud = len(args)-2
         # print'nbNoeud: %d'%nbNoeud
-        for i in range(1,nbNoeud):
-            node0.add(args[i])
+        for i in range(1,nbNoeud+1):
+            nodes.add(args[i])
+            print args[i]+' : sudo service '+args[nbNoeud+1]+' stop'
 
        
-        print 'sudo service '+args[nbNoeud+1]+' stop'
+       
         task_self().run('sudo service '+args[nbNoeud+1]+' stop', nodes=nodes)
 
     def start(self, args):
@@ -22,10 +23,10 @@ class service:
         nodes = NodeSet()
         depNode = NodeSet()
         
-        nbNoeud = len(args)-3
+        nbNoeud = len(args)-2
         #print'nbNoeud: %d'%nbNoeud
-        for i in range(1,nbNoeud):
-            node0.add(args[i])
+        for i in range(1,nbNoeud+1):
+            nodes.add(args[i])
 
         
         dependance=1
@@ -46,7 +47,7 @@ class service:
                 depNode.add(node)
                 for service in installService:
                     task_self().run('sudo service '+service+' status', nodes=depNode)
-                    ret=self.status([node,service,'status'],2)
+                    ret=self.status([node,service],2)
                     depNode = NodeSet()
                     if ret ==0:
                         print'Service : '+service+' sur : '+node+ ' status : non-installe'
@@ -59,29 +60,30 @@ class service:
                 depNode.add(node)
                 for service in startServices:
                     task_self().run('sudo service '+service+' status', nodes=depNode)
-                    ret=self.status([node,service,'status'],1)
+                    ret=self.status([node,service],1)
                     depNode = NodeSet()
                     if ret ==0:
                         print'Service : '+service+' sur : '+node+ ' status : non-demarre'
                         dependance = 0
                     elif ret ==1:
                         print'Service : '+service+' sur : '+node+ ' status : demarre'
-        print dependance
+       # print dependance
                     
         if dependance == 1:
             print'dependance OK'
-            print 'sudo service '+args[nbNoeud+1]+' start'
+            for i in range(1,nbNoeud+1):
+                print args[i]+' : sudo service '+args[nbNoeud+1]+' start'
             task_self().run('sudo service '+args[nbNoeud+1]+' start', nodes=nodes)
         else:
             print'dependance KO'
 
     def status(self, args,afficher):
         node0 = NodeSet()
-        nbNoeud = len(args)-3
+        nbNoeud = len(args)-2
         
         #print'nbNoeud: %d'%nbNoeud
     
-        for i in range(1,nbNoeud):
+        for i in range(1,nbNoeud+1):
             node0.add(args[i])
 
         print 'sudo service '+args[nbNoeud+1]+' status'
@@ -95,31 +97,31 @@ class service:
             
             for output, nodes in task_self().iter_buffers():
                for node in nodes:
-                   print '%s: %s'%(node, output)
+                   #print '%s: %s'%(node, output)
                    # a tester
                    string='%s'%output
                    if ctrl == 2:
                         if string.split('Loaded: ')[1].split(' ')[0]=='loaded':
-                            print '%s install status : 1'%node
+                           # print '%s install status : 1'%node
                             return 1
                         elif string.split('Loaded: ')[1].split(' ')[0]=='not-found':
-                            print '%s install status : 0'%node
+                            #print '%s install status : 0'%node
                             return 0
                         else :
-                            print '%s install status : inconnu'%node
+                            #print '%s install status : inconnu'%node
                             return -1
             
                    if ctrl == 1:
                        
                         if string.split('Active: ')[1].split(' ')[0]=='active':
-                            print '%s start status : 1'%node
+                            #print '%s start status : 1'%node
 
                             return 1
                         elif string.split('Active: ')[1].split(' ')[0]=='inactive':
-                            print '%s start status : 0'%node
+                            #print '%s start status : 0'%node
                             return 0
                         else :
-                            print '%s start status : inconnu'%node
+                            #print '%s start status : inconnu'%node
                             return -1
                 
            # "Active:" "active" "inactive"    

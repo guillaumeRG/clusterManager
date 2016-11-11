@@ -18,7 +18,7 @@ class ihm(Tkinter.Tk):
         self.outputNode = Tkinter.Text(self)
         self.outputNode.grid(column=0,row=1)
     def start(self):
-        print'start'
+        print'----------------start----------------'  
         global nodes
         global services
         global serviceManager
@@ -28,35 +28,43 @@ class ihm(Tkinter.Tk):
             args.append(self.nodes[i-1])
             
         args.append('service')
-        args.append("start")
+  
         for i in range(0,(len(self.services))):
             
             args[len(self.nodes)+1]=self.services[i]
             if  self.nodes[0] != "":
                 if self.services[0] != "":
                     self.serviceManager.start(args)
+        print''            
             
     def status(self):
-        print'status'
+        print'----------------status----------------'
         global nodes
         global services
         global serviceManager
         args = ['service.py']
-
-        for i in range(1,(len(self.nodes)+1)):
-            args.append(self.nodes[i-1])
-            
         args.append('service')
-        args.append("status")
-        for i in range(0,(len(self.services))):
+        args.append('service')
+        for i in range(1,(len(self.nodes)+1)):
+            args[1]=self.nodes[i-1]
             
-            args[len(self.nodes)+1]=self.services[i]
-            if  self.nodes[0] != "":
-                if self.services[0] != "":
-                    self.serviceManager.status(args,1)
+            for i in range(0,(len(self.services))):
+            
+                args[2]=self.services[i]                
+        
+                if  self.nodes[0] != "":
+                    if self.services[0] != "":
+                        ret=self.serviceManager.status(args,1)
+                        if ret ==0:
+                            print'Service : '+args[2]+' sur : '+args[1]+ ' status : non-demarre'
+                        elif ret ==1:
+                            print'Service : '+args[2]+' sur : '+args[1]+ ' status : demarre'
+       
+        print''
+        
             
     def stop(self):
-        print 'stop'
+        print'----------------stop----------------'
         global nodes
         global services
         global serviceManager
@@ -66,23 +74,38 @@ class ihm(Tkinter.Tk):
             args.append(self.nodes[i-1])
             
         args.append('service')
-        args.append("stop")
+ 
         for i in range(0,(len(self.services))):
             
             args[len(self.nodes)+1]=self.services[i]
             if  self.nodes[0] != "":
                 if self.services[0] != "":
                     self.serviceManager.stop(args)
+        print''
     def fnct(self,event):
         if self.entrerNode.get() != "":
-            print self.entrerNode.get()
+            #print self.entrerNode.get()
             self.outputNode.insert('1.0',self.entrerNode.get()+'\n')
             global nodes
             self.nodes.append(self.entrerNode.get())
             self.valueNode.set("")
 
         if self.entrerService.get() !="":
-            print self.entrerService.get()
+            #print self.entrerService.get()
+            self.outputServices.insert('1.0',self.entrerService.get()+'\n')
+            global services
+            self.services.append(self.entrerService.get())
+            self.valueService.set("")
+    def btn(self):
+        if self.entrerNode.get() != "":
+            #print self.entrerNode.get()
+            self.outputNode.insert('1.0',self.entrerNode.get()+'\n')
+            global nodes
+            self.nodes.append(self.entrerNode.get())
+            self.valueNode.set("")
+
+        if self.entrerService.get() !="":
+            #print self.entrerService.get()
             self.outputServices.insert('1.0',self.entrerService.get()+'\n')
             global services
             self.services.append(self.entrerService.get())
@@ -118,10 +141,10 @@ class ihm(Tkinter.Tk):
         self.entrerService = Tkinter.Entry(self.lframeService,fg='grey',textvariable=self.valueService)
         self.entrerService.pack()
         
-        self.buttonNode = Tkinter.Button(self.lframe,text="Ok",command=self.fnct)
+        self.buttonNode = Tkinter.Button(self.lframe,text="Ok",command=self.btn)
         self.buttonNode.pack()
 
-        self.buttonService = Tkinter.Button(self.lframeService,text="Ok",command=self.fnct)
+        self.buttonService = Tkinter.Button(self.lframeService,text="Ok",command=self.btn)
         self.buttonService.pack()
 
         self.outputServices = Tkinter.Text(self)
