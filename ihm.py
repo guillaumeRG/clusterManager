@@ -140,7 +140,10 @@ class ihm(Tkinter.Tk):
                 if self.services[0] != "":
                     self.serviceManager.start(args)
         print''    
-        
+        global nodes
+        global services
+        self.nodes=[]
+        self.services=[]
     def __init__(self,parent):
         Tkinter.Tk.__init__(self,parent)
         self.parent=parent
