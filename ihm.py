@@ -9,6 +9,7 @@ class ihm(Tkinter.Tk):
     nodes = []
     serviceManager=service.service()
     configManager = dep.dep()
+    link=''
     def reset(self):
         global nodes
         global services
@@ -115,13 +116,37 @@ class ihm(Tkinter.Tk):
         global configManager        
         self.configManager.targetNode('cfg/'+self.entrerConfig.get())
         self.configManager.targetService('cfg/'+self.entrerConfig.get())
-
+        self.configManager.link('cfg/'+self.entrerConfig.get())
         global nodes
         self.nodes = self.configManager.getTargetNodes()
 
         global services
         self.services = self.configManager.getTargetServices()
+
+        global link
+        self.link = self.configManager.getLinkedTo()
         
+        self.linkedStart()
+        
+    def startConfigProcedure(self):
+        global configManager
+        global link
+        
+        self.configManager.targetNode('cfg/'+self.link[0])
+        self.configManager.targetService('cfg/'+self.link[0])
+        self.configManager.link('cfg/'+self.link[0])
+        global nodes
+        self.nodes = self.configManager.getTargetNodes()
+
+        global services
+        self.services = self.configManager.getTargetServices()
+        self.link[0] = ''
+        
+        self.link = self.configManager.getLinkedTo()
+        
+        self.linkedStart()
+        
+    def linkedStart(self):
         print'----------------start----------------'  
         global nodes
         global services
@@ -144,6 +169,11 @@ class ihm(Tkinter.Tk):
         global services
         self.nodes=[]
         self.services=[]
+        global link
+        
+        if self.link[0] != '':
+        
+            self.startConfigProcedure()
     def __init__(self,parent):
         Tkinter.Tk.__init__(self,parent)
         self.parent=parent

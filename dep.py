@@ -5,6 +5,7 @@ class dep:
     nodeStarted=[]
     targetNodes = []
     targetServices = []
+    linkedTo = ''
     def targetNode(self, path):
         fichier = open(path,"r")
         lines = fichier.read().split("\n")
@@ -34,7 +35,18 @@ class dep:
             global targetServices
             targetServices = targetLine.split(";")[1].split(",")
 
-           
+    def link(self,path):
+        fichier = open(path,"r")
+        lines = fichier.read().split("\n")
+        targetLines=[]
+        for line in lines :
+            if line.split(';')[0]== 'link':
+                targetLines.append(line)
+       
+        for targetLine in targetLines:
+            global linkedTo
+            linkedTo = ''
+            linkedTo = targetLine.split(";")[1].split(",")
     def toInstall(self,path):
         fichier = open(path,"r")
         lines = fichier.read().split("\n")
@@ -88,6 +100,9 @@ class dep:
     def getTargetServices(self):
         global targetServices
         return targetServices
+    def getLinkedTo(self):
+        global linkedTo
+        return linkedTo
         
 
     if __name__ == "__main__":
