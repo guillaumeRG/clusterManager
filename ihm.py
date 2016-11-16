@@ -2,12 +2,13 @@ import Tkinter
 from Tkinter import StringVar
 from Tkinter import LabelFrame
 import service
-
+import dep
 class ihm(Tkinter.Tk):
     
     services = []
     nodes = []
     serviceManager=service.service()
+    configManager = dep.dep()
     def reset(self):
         global nodes
         global services
@@ -110,7 +111,35 @@ class ihm(Tkinter.Tk):
             global services
             self.services.append(self.entrerService.get())
             self.valueService.set("")
+    def startConfig(self):
+        global configManager        
+        self.configManager.targetNode('cfg/'+self.entrerConfig.get())
+        self.configManager.targetService('cfg/'+self.entrerConfig.get())
+
+        global nodes
+        self.nodes = self.configManager.getTargetNodes()
+
+        global services
+        self.services = self.configManager.getTargetServices()
         
+        print'----------------start----------------'  
+        global nodes
+        global services
+        global serviceManager
+        args = ['service.py']
+
+        for i in range(1,(len(self.nodes)+1)):
+            args.append(self.nodes[i-1])
+            
+        args.append('service')
+  
+        for i in range(0,(len(self.services))):
+            
+            args[len(self.nodes)+1]=self.services[i]
+            if  self.nodes[0] != "":
+                if self.services[0] != "":
+                    self.serviceManager.start(args)
+        print''    
         
     def __init__(self,parent):
         Tkinter.Tk.__init__(self,parent)
@@ -164,6 +193,13 @@ class ihm(Tkinter.Tk):
 
         self.status=Tkinter.Button(self,text="Status",command=self.status)
         self.status.grid(column=2,row=2)
+
+        self.valueConfig = StringVar()
+        self.entrerConfig = Tkinter.Entry(self,fg='grey',textvariable=self.valueConfig)        
+        self.entrerConfig.grid(column=0,row=3)
+
+        self.config=Tkinter.Button(self,text="Start config",command=self.startConfig)
+        self.config.grid(column=1,row=3)
         #self.label = Tkinter.Label(self,anchor="center",text = 'Nom du noeud :',fg="black",bg="white")
         #self.label.grid(column=0,row=0,columnspan=2,sticky='EW')
         #redimensionnement auto

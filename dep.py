@@ -3,7 +3,38 @@ class dep:
     nodeIs_install=[]
     started=[]
     nodeStarted=[]
-    
+    targetNodes = []
+    targetServices = []
+    def targetNode(self, path):
+        fichier = open(path,"r")
+        lines = fichier.read().split("\n")
+        targetLines=[]
+        for line in lines :
+            if line.split(';')[0]== 'target':
+                targetLines.append(line)
+               
+                
+        
+        #print len(installLines)
+        #installLines=fichier.read().split("\n")[0] #split de la ligne dans le fichier
+        for targetLine in targetLines:
+            global targetNodes
+            targetNodes = targetLine.split(";")[1].split(",")
+    def targetService(self, path):
+        fichier = open(path,"r")
+        lines = fichier.read().split("\n")
+        targetLines=[]
+        for line in lines :
+            if line.split(';')[0]== 'services':
+                targetLines.append(line)
+                
+        
+       
+        for targetLine in targetLines:
+            global targetServices
+            targetServices = targetLine.split(";")[1].split(",")
+
+           
     def toInstall(self,path):
         fichier = open(path,"r")
         lines = fichier.read().split("\n")
@@ -51,11 +82,25 @@ class dep:
     def getNodeIs_install(self):
         global nodeIs_install
         return nodeIs_install
+    def getTargetNodes(self):
+        global targetNodes
+        return targetNodes
+    def getTargetServices(self):
+        global targetServices
+        return targetServices
         
 
     if __name__ == "__main__":
-        print'toInstall : '
+        """print'toInstall : '
         toInstall("cfg/nfs-common")
         print'toStart : '
         toStart("cfg/nfs-common")
-        print getStarted()[0]
+        print getStarted()[0]"""
+        
+        
+        targetService("cfg/config1")
+        
+        print 'services : '+getTargetServices()[0]
+        targetNode("cfg/config1")
+        
+        print 'nodes : '+getTargetNodes()[0]
